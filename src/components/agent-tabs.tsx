@@ -84,7 +84,14 @@ export function AgentTabs({ data }: AgentTabsProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [storedAgent, setStoredAgent] = useState<AgentKey>(getInitialAgent);
+  const [storedAgent, setStoredAgent] = useState<AgentKey>("pesito");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const initial = getInitialAgent();
+    setStoredAgent(initial);
+  }, []);
 
   const urlAgent = searchParams?.get(URL_PARAM);
   const hasUrlAgent = Boolean(urlAgent && agentSet.has(urlAgent as AgentKey));
@@ -130,6 +137,23 @@ export function AgentTabs({ data }: AgentTabsProps) {
       window.removeEventListener("keydown", handleKey);
     };
   }, [handleSelect]);
+
+  if (!isMounted) {
+    return (
+      <div className="grid gap-6 md:grid-cols-[240px_1fr]">
+        <nav className="rounded-3xl border border-white/10 bg-white/5 p-3 backdrop-blur">
+          <div className="mb-3 text-xs uppercase tracking-widest text-white/40">
+            Cargando...
+          </div>
+        </nav>
+        <div className="space-y-4">
+          <p className="text-sm uppercase tracking-widest text-white/60">
+            Cargando...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="grid gap-6 md:grid-cols-[240px_1fr]">
