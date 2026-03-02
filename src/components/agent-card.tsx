@@ -16,6 +16,21 @@ const agentColors: Record<AgentKey, string> = {
 };
 
 export function AgentCard({ agent, data }: AgentCardProps) {
+  if (!data) {
+    return (
+      <section className={`rounded-2xl border border-white/10 bg-gradient-to-br ${agentColors[agent]} p-6 shadow-lg`}>
+        <header className="mb-4 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-wide text-white/60">{agent}</p>
+            <h2 className="text-2xl font-semibold text-white">Cargando...</h2>
+          </div>
+          <BadgeCheck className="text-white/60" size={24} />
+        </header>
+        <p className="text-sm text-white/80">Sin datos disponibles</p>
+      </section>
+    );
+  }
+
   return (
     <section className={`rounded-2xl border border-white/10 bg-gradient-to-br ${agentColors[agent]} p-6 shadow-lg transition hover:shadow-xl`}>
       <header className="mb-4 flex items-center justify-between gap-4">
