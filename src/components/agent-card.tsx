@@ -44,7 +44,7 @@ export function AgentCard({ agent, data }: AgentCardProps) {
           {Object.entries(data.metrics).map(([label, value]) => (
             <div key={label} className="rounded-xl bg-black/20 p-3 text-center">
               <dt className="text-xs uppercase tracking-wide text-white/60">{label}</dt>
-              <dd className="text-xl font-semibold">{value.toLocaleString("es-CL")}</dd>
+              <dd className="text-xl font-semibold">{typeof value === 'number' ? value.toLocaleString("es-CL") : String(value)}</dd>
             </div>
           ))}
         </dl>
@@ -69,7 +69,7 @@ export function AgentCard({ agent, data }: AgentCardProps) {
       <footer className="mt-6 flex items-center gap-2 text-xs text-white/60">
         <Clock3 size={14} />
         <span>
-          {data.lastUpdated
+          {data.lastUpdated && !isNaN(new Date(data.lastUpdated).getTime())
             ? new Date(data.lastUpdated).toLocaleString("es-CL", {
                 dateStyle: "short",
                 timeStyle: "short",
